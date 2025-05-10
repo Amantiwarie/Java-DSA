@@ -1,0 +1,74 @@
+import java.util.*;
+
+class Node {
+    int data;
+    Node next;
+    Node(int data){
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class LinkedList {
+    Node head;
+    void add(int data){
+        Node new_node = new Node(data);
+        if (head == null) {
+            head = new_node;
+            return;
+        }
+        Node curr = head;
+        while (curr.next != null) {
+            curr = curr.next;
+        }
+        curr.next = new_node;
+    }
+}
+
+class Solution {
+    public Node partition(Node head, int x) {
+        Node lessHead = new Node(0);  // Dummy for < x
+        Node moreHead = new Node(0);  // Dummy for >= x
+        Node less = lessHead, more = moreHead;
+
+        while (head != null) {
+            if (head.data < x) {
+                less.next = head;
+                less = less.next;
+            } else {
+                more.next = head;
+                more = more.next;
+            }
+            head = head.next;
+        }
+
+        more.next = null; // Important to terminate the list
+        less.next = moreHead.next; // Connect less and more
+
+        return lessHead.next;
+    }
+}
+
+public class Main {
+    public static void printList(Node head){
+        Node curr = head;
+        while (curr != null) {
+            System.out.print(curr.data + " ");
+            curr = curr.next;
+        }
+    }
+
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        LinkedList l1 = new LinkedList();
+        for (int i = 0; i < n; i++) {
+            l1.add(sc.nextInt());
+        }
+        int x = sc.nextInt();
+
+        Solution obj = new Solution();
+        Node newHead = obj.partition(l1.head, x);
+        printList(newHead);
+    }
+}

@@ -1,0 +1,100 @@
+import java.util.*;
+
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class LinkedList {
+    Node head;
+
+    // Add node at the end
+    void add(int data) {
+        Node newNode = new Node(data);
+        if (head == null) {
+            head = newNode;
+            return;
+        }
+        Node curr = head;
+        while (curr.next != null) {
+            curr = curr.next;
+        }
+        curr.next = newNode;
+    }
+
+    // Merge Sort
+    Node mergeSort(Node head) {
+        if (head == null || head.next == null)
+            return head;
+
+        Node mid = getMiddle(head);
+        Node rightHead = mid.next;
+        mid.next = null;
+
+        Node left = mergeSort(head);
+        Node right = mergeSort(rightHead);
+
+        return merge(left, right);
+    }
+
+    // Find middle of the list
+    Node getMiddle(Node head) {
+        Node slow = head, fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
+    // Merge two sorted lists
+    Node merge(Node l1, Node l2) {
+        Node dummy = new Node(0);
+        Node temp = dummy;
+
+        while (l1 != null && l2 != null) {
+            if (l1.data < l2.data) {
+                temp.next = l1;
+                l1 = l1.next;
+            } else {
+                temp.next = l2;
+                l2 = l2.next;
+            }
+            temp = temp.next;
+        }
+
+        if (l1 != null) temp.next = l1;
+        if (l2 != null) temp.next = l2;
+
+        return dummy.next;
+    }
+
+    // Print list
+    void printList(Node head) {
+        Node curr = head;
+        while (curr != null) {
+            System.out.print(curr.data + " ");
+            curr = curr.next;
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        LinkedList list = new LinkedList();
+
+        for (int i = 0; i < n; i++) {
+            list.add(sc.nextInt());
+        }
+
+        list.head = list.mergeSort(list.head);
+        list.printList(list.head);
+    }
+}

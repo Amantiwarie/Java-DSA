@@ -1,0 +1,63 @@
+import java.util.*;
+
+class Solution {
+    static LinkedListNode sort01(LinkedListNode head){
+        // Write your code here
+        int zero =0;
+        int one =1;
+        LinkedListNode ans = new LinkedListNode(-1);
+        LinkedListNode dummy =ans;
+        while(head!=null){
+            if(head.data==0){
+                zero++;
+            }
+            if(head.data==1){
+                one++;
+            }
+            head=head.next;
+        }
+        for(int i= 0;i<zero;i++){
+             dummy.next =new LinkedListNode(0);
+             dummy =dummy.next;
+        }
+        for(int i= 0;i<one;i++){
+             dummy.next =new LinkedListNode(1);
+             dummy =dummy.next;
+        }
+        return ans.next;
+
+    }
+}
+
+class LinkedListNode  {
+    int data;
+    LinkedListNode next;
+
+    public LinkedListNode(int data)  {
+        this.data = data;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        LinkedListNode head = new LinkedListNode(sc.nextInt());
+        LinkedListNode a = head;
+        for(int i=1;i<n;i++) {
+            LinkedListNode temp = new LinkedListNode(sc.nextInt());
+            a.next = temp;
+            a = temp;
+        }
+        LinkedListNode ans = Solution.sort01(head);
+        for(int i=0;i<n;i++) {
+            if(i == n-1) {
+                System.out.println(ans.data);
+            }
+            else {
+                System.out.print(ans.data + " ");
+            }
+            ans = ans.next;
+        }
+    }
+}

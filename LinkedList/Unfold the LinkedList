@@ -1,0 +1,83 @@
+import java.io.*;
+import java.util.*;
+ 
+class Node{
+    int data;
+    Node next;
+    Node(int data){
+        this.data = data;
+        next = null;
+    }
+}
+class LinkedList{
+    Node head;
+    void add(int data ){
+        Node new_node = new Node(data);
+        if(head == null){
+            head = new_node;
+            return;
+        }
+        Node current = head;
+        while(current.next !=null){
+            current = current.next;
+        }
+        current.next = new_node;
+    }
+}
+
+class Solution {
+    public static Node reverse(Node head){
+        Node prev =null;
+        Node curr =head;
+        while(curr!=null){
+            Node next =curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=next;
+        }
+        return prev;
+    }
+    static  Node unfold(Node head)
+    {
+     // Your code here
+     int i=0;
+     Node temp1 =new Node(0);
+     Node temp2 =new Node(0);
+     Node t1 =temp1;
+     Node t2=temp2;
+     while(head!=null){
+        if(i%2==0){
+            t1.next=head;
+            t1=t1.next;
+        }
+        else{
+            t2.next=head;
+            t2=t2.next;
+        }
+        i++;
+        head=head.next;
+     }
+     t2.next=null;
+     Node half = reverse(temp2.next);
+     t1.next=half;
+     return temp1.next; 
+
+    }
+}
+public class Main {
+    
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        LinkedList l1= new LinkedList();
+        for(int i=0;i<n;i++){
+            l1.add(sc.nextInt());
+        }
+        Solution Ob = new Solution();
+        Node ans = Ob.unfold(l1.head);
+        while(ans!=null){
+            System.out.print(ans.data+ " ");
+            ans =ans.next;
+        }
+    }
+}

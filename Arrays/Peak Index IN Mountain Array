@@ -1,0 +1,35 @@
+import java.io.*;
+import java.util.*;
+
+class Solution {
+    public int peakIndexInMountainArray(int[] A) {
+        int si =0;
+        int ei =A.length-1;
+        while(si<ei){
+            int mid =si +(ei-si)/2;
+            if(A[mid]<A[mid+1]){
+                si=mid+1;
+            }else{
+                ei =mid;
+            }
+        }
+        return si;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int arr1[] = new int[n];
+        for(int i = 0; i < n; i++)
+            arr1[i] = sc.nextInt();
+        
+        Solution Obj = new Solution();
+        int result = Obj.peakIndexInMountainArray(arr1);
+        System.out.print(result + " ");
+        System.out.println();
+        
+        sc.close();
+    }
+}

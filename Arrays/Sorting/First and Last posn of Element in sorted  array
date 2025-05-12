@@ -1,0 +1,58 @@
+import java.util.*;
+
+public class Main {
+    public static int firstoccurence(int arr[],int n,int k){
+        int si =0;
+        int ei =n-1;
+        int res =-1;
+        while( si<=ei){
+            int mid =si +(ei-si)/2;
+            if(arr[mid]==k){
+                res =mid;
+                ei =mid-1;
+            }else if(arr[mid]<k){
+                si =mid+1;
+            }else{
+                ei =mid-1;
+            }
+        }
+        return res;
+    }
+      public static int lastoccurence(int arr[],int n,int k){
+        int si =0;
+        int ei =n-1;
+        int res =-1;
+        while( si<=ei){
+            int mid =si +(ei-si)/2;
+            if(arr[mid]==k){
+                res =mid;
+                si =mid+1;
+            }else if(arr[mid]<k){
+                si =mid+1;
+            }else{
+                ei =mid-1;
+            }
+        }
+        return res;
+    }
+    public static int[] findPosition(int a[], int n,int k)
+    {
+        int x = firstoccurence(a,n,k);
+        if (x==-1) return new int[]{-1,-1};
+        int b =lastoccurence(a,n,k);
+        return new int []{x,b};
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n= sc.nextInt();
+        int k= sc.nextInt();
+        int array[] = new int[n];
+
+        for(int i=0; i<n; i++){
+            array[i]= sc.nextInt();
+        }
+       int [] c = findPosition(array,n,k);
+       for( int i : c)
+            System.out.print(i+" ");
+    }
+}

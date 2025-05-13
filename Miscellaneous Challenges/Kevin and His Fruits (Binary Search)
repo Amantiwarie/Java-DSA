@@ -1,0 +1,71 @@
+Kevin And His Fruits
+Kevin has N buckets each consisting of some fruits. Kevin wants to eat at least M fruits and so, he decided to set a marker (integer) as maximum as possible such that if he eats number of fruits in the i-th bucket - marker fruits then it must be at least M.
+
+Note Each bucket may not have the same amount of fruits. It is guaranteed that the sum of all fruits (including all the buckets) will be greater than M. Kevin can only eat fruits from a particular bucket if and only if the bucket has more fruits than the marker.
+
+Input Format
+The first line will contain two space-separated integers N and M where N is the total number of buckets, and M is the minimum number of fruits that Kevin wants to eat.
+
+The second line will contain N space-separated integers which denote the number of fruits in the i-th bucket.
+
+Output Format
+Print the maximum possible value of the marker.
+
+Example 1
+Input
+
+4 30
+10 40 30 20
+Output
+
+20
+Explanation
+
+If we set the marker at 20 then Kevin can eat following fruits from each bucket: 0 (1st bucket) + 20 (2nd bucket) + 10 (3rd bucket) + 0 (4th bucket) = 30 (K).
+
+Answer
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        ArrayList<Integer> arr = new ArrayList<>();
+        for(int i=0;i<n;i++) {
+            arr.add(sc.nextInt());
+        }
+        int ans = Solution.getMaxMarker(arr, n, m);
+        System.out.println(ans);
+    }
+}
+class Solution 
+{
+    static boolean isvalid(ArrayList<Integer> arr , int n,int m,int marker){
+         long total =0;
+         for(int i =0;i<n;i++){
+            int fruit = arr.get(i);
+            if(fruit>marker){
+            total += (fruit-marker);
+            }
+         }
+         return total >= m;
+    }
+    static int getMaxMarker(ArrayList<Integer> arr, int n, int m) 
+    {
+       int si =0;
+       int ei = Collections.max(arr);
+       int ans =0;
+       while(si<=ei){
+        int mid =si +(ei-si)/2;
+        if(isvalid(arr,n,m,mid)){
+            ans =mid;
+            si = mid+1;
+        }else{
+            ei =mid-1;
+        }
+       }
+       return ans;
+    }
+}

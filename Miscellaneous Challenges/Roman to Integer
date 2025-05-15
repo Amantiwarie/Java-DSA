@@ -1,0 +1,33 @@
+class Solution {
+    public int romanToInt(String s) {
+         // Dictionary mapping Roman numeral symbols to values
+        Map<Character, Integer> symbolValues = new HashMap<Character, Integer>() {{
+            put('I', 1);
+            put('V', 5);
+            put('X', 10);
+            put('L', 50);
+            put('C', 100);
+            put('D', 500);
+            put('M', 1000);
+        }};
+
+        // Initialize result to 0
+        int result = 0;
+
+        // Iterate through the string from left to right
+        for (int i = 0; i < s.length(); i++) {
+            // Get the value of the current symbol
+            int symbolValue = symbolValues.get(s.charAt(i));
+
+            // If the next symbol has a higher value, it means that the current symbol
+            // should be subtracted rather than added
+            if (i + 1 < s.length() && symbolValues.get(s.charAt(i + 1)) > symbolValue) {
+                result -= symbolValue;
+            } else {
+                result += symbolValue;
+            }
+        }
+
+        return result;
+    }
+}

@@ -1,0 +1,38 @@
+import java.util.*;
+
+class Solution {
+    public void allDuplicates(int n, int[] arr) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        for (int value : arr) {
+            if (value >= 1 && value <= n) { // ✅ Important check
+                map.put(value, map.getOrDefault(value, 0) + 1);
+            }
+        }
+
+        // Print all values that appear exactly twice
+        for (int key : map.keySet()) {
+            if (map.get(key) == 2) {
+                System.out.print(key + " ");
+            }
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt(); // Range is 1 to n
+        int[] arr = new int[n]; // Or more, if array size > n is allowed
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        Solution obj = new Solution();
+        obj.allDuplicates(n, arr);
+
+        sc.close();
+    }
+}

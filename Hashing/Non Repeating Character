@@ -1,0 +1,27 @@
+import java.util.*;
+
+class Solution {
+    public void nonRepeatingCharacter(String s) {
+      LinkedHashMap <Character,Integer> map =new LinkedHashMap();
+      for(char ch :s.toCharArray()){
+        map.put(ch,map.getOrDefault(ch,0)+1);
+      }
+      for(char ch : map.keySet()){
+        if(map.get(ch)==1){
+            System.out.print(ch);
+            return;
+        }
+      }
+      System.out.println(-1);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next(); // Read input string
+        Solution Obj = new Solution();
+        Obj.nonRepeatingCharacter(s);  
+        sc.close();
+    }
+}

@@ -1,0 +1,39 @@
+import java.io.*;
+import java.util.*;
+
+class Solution {
+    static int solve(int N, int[] arr, int k) {
+        int count =0;
+        int sum =0;
+        HashMap <Integer,Integer> map =new HashMap<>();
+        map.put(0,1);
+        for(int i:arr ){
+            sum+=i;
+        if(map.containsKey(sum-k)){
+            count += map.get(sum-k);
+        }
+            map.put(sum,map.getOrDefault(sum,0)+1);
+        
+        }
+        return count;
+    }
+}
+
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int[] Arr = new int[N];
+        for (int i = 0; i < N; i++) {
+            Arr[i] = sc.nextInt();
+        }
+        int K = sc.nextInt();  
+
+        int result = Solution.solve(N, Arr, K);
+        System.out.println(result);
+    }
+}
+
+    
+

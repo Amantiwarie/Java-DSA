@@ -1,0 +1,58 @@
+import java.util.*;
+
+import java.util.*;
+
+class Solution {
+    static void missingNumbers(int n, int arr[], int m, int brr[]) {
+    HashMap <Integer, Integer> map = new HashMap();
+    for(int i : arr){
+        map.put(i,map.getOrDefault(i,0)+1);
+    }
+    HashMap <Integer, Integer> map2 = new HashMap();
+    for(int i :brr){
+        map2.put(i,map2.getOrDefault(i,0)+1);
+    }
+    TreeSet <Integer> result = new TreeSet<>();
+    for(int key : map2.keySet()){
+        if(map.containsKey(key)){
+            int freqarr=map.get(key);
+            int freqbrr=map2.get(key);
+            if(freqarr!=freqbrr){
+                result.add(key);
+            }
+        }else{
+            result.add(key);
+        }
+    }
+    if(result.isEmpty()){
+        System.out.println(-1);
+    }else{
+        for(int i : result){
+            System.out.print(i+" ");
+        }
+    }
+
+    }
+}
+
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int arr[] = new int[n];
+        for(int i=0; i<n; i++){
+            arr[i]= sc.nextInt();
+        }
+
+        int m = sc.nextInt();
+        int brr[] = new int[m];
+        for(int i=0; i<m; i++){
+            brr[i]= sc.nextInt();
+        }
+
+        Solution Obj = new Solution();
+        Obj.missingNumbers(n,arr,m,brr);
+    }
+}

@@ -1,0 +1,48 @@
+import java.io.*;
+import java.util.*;
+
+class Solution {
+    public long pairDifference(int []arr, int n, int k) {
+       // write code here
+       long count =0;
+       HashSet<Integer> set = new HashSet<>();
+      
+        for (int i : arr){
+        set.add(i);
+       }
+        if(k==0){
+       HashMap <Integer ,Integer> map = new HashMap<>();
+       for(int i=0;i<arr.length;i++){
+        map.put(arr[i], map.getOrDefault(arr[i],0)+1);
+       }
+       for(int i:map.keySet()){
+        if(map.get(i)>1){
+            count++;
+        }
+       }
+       }else{
+        for(int key : set){
+            if(set.contains(key+k)){
+                count++;
+            }
+        }
+       }
+       return count;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n,k;
+        n = sc.nextInt();
+        k = sc.nextInt();
+        int []mat=new int[n];
+        for(int i=0;i<n;++i){
+            mat[i]=sc.nextInt();
+        }
+        Solution Obj = new Solution();
+        System.out.println(Obj.pairDifference(mat,n,k));
+        System.out.println('\n');
+    }
+}

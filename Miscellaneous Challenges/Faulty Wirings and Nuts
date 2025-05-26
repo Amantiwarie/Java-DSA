@@ -1,0 +1,69 @@
+Faulty Wirings and Bulbs
+N light bulbs are connected by a wire. Each bulb has a switch associated with it, however due to faulty wiring, a switch also changes the state of all the bulbs to the right of current bulb.
+
+Given an initial state of all bulbs, find the minimum number of switches you have to press to turn on all the bulbs. You can press the same switch multiple times.
+
+Note : 0 represents the bulb is off and 1 represents the bulb is on.
+
+Input Format
+First line is N.
+
+Second line has N values of the array
+
+Output Format
+Print an integer representing the minimum number of switches required.
+
+Example 1
+Input
+
+1
+1
+Output
+
+0
+Explanation
+
+There is no need to turn any switches as all the bulbs are already on.
+
+
+
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class Solution {
+    public static int bulbs(int[] A) {
+        int flips = 0;
+        int count = 0;
+
+        for (int i = 0; i < A.length; i++) {
+            int effectiveState = A[i] ^ (flips % 2);
+            if (effectiveState == 0) {
+                // Bulb is off, we need to flip
+                flips++;
+                count++;
+            }
+        }
+
+        return count;
+    }
+}
+
+
+public class Main {
+  public static void main (String[] args)
+	{
+		Scanner sc = new Scanner(System.in);
+	    
+	    	int n = sc.nextInt();
+			int[] A = new int[n];
+			for(int i=0;i<n;i++)
+			{
+				A[i]= sc.nextInt();
+			}
+            Solution solution = new Solution();
+	    	System.out.println(solution.bulbs(A));
+		
+	}
+}

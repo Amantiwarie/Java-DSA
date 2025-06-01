@@ -1,0 +1,88 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String exp = br.readLine();
+        Solution ob = new Solution();
+        ob.evaluate(exp);
+    }
+}
+
+class Solution {
+    public void evaluate(String exp) {
+        Stack<Integer> values = new Stack<>();
+        Stack<String> postfix = new Stack<>();
+        Stack<String> prefix = new Stack<>();
+        Stack<Character> ops = new Stack<>();
+
+        for (int i = 0; i < exp.length(); i++) {
+            char ch = exp.charAt(i);
+
+            if (ch == '(') {
+                ops.push(ch);
+            } else if (Character.isDigit(ch)) {
+                values.push(ch - '0');
+                postfix.push(ch + "");
+                prefix.push(ch + "");
+            } else if (ch == ')') {
+                while (ops.peek() != '(') {
+                    processStacks(values, postfix, prefix, ops);
+                }
+                ops.pop(); // remove '('
+            } else if (isOperator(ch)) {
+                while (!ops.isEmpty() && ops.peek() != '(' && precedence(ch) <= precedence(ops.peek())) {
+                    processStacks(values, postfix, prefix, ops);
+                }
+                ops.push(ch);
+            }
+        }
+
+        while (!ops.isEmpty()) {
+            processStacks(values, postfix, prefix, ops);
+        }
+
+        System.out.println(values.pop());
+        System.out.println(postfix.pop());
+        System.out.println(prefix.pop());
+    }
+
+    private void processStacks(Stack<Integer> values, Stack<String> postfix, Stack<String> prefix, Stack<Character> ops) {
+        char op = ops.pop();
+
+        // evaluation
+        int v2 = values.pop();
+        int v1 = values.pop();
+        int val = evaluate(v1, v2, op);
+        values.push(val);
+
+        // postfix
+        String postv2 = postfix.pop();
+        String postv1 = postfix.pop();
+        postfix.push(postv1 + postv2 + op);
+
+        // prefix
+        String prev2 = prefix.pop();
+        String prev1 = prefix.pop();
+        prefix.push(op + prev1 + prev2);
+    }
+
+    private boolean isOperator(char ch) {
+        return ch == '+' || ch == '-' || ch == '*' || ch == '/';
+    }
+
+    private int precedence(char op) {
+        if (op == '+' || op == '-') return 1;
+        else return 2; // '*' or '/'
+    }
+
+    private int evaluate(int a, int b, char op) {
+        switch (op) {
+            case '+': return a + b;
+            case '-': return a - b;
+            case '*': return a * b;
+            default : return a / b;
+        }
+    }
+}

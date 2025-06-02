@@ -1,0 +1,55 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+  public static void main(String[] args) throws Exception {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String exp = br.readLine();
+    Solution ob =new Solution();
+    ob.evaluation(exp);
+  }
+}
+
+class Solution{
+    public void evaluation(String exp){
+        //Write code here
+        Stack <Integer> answer = new Stack<>();
+        Stack <String> infix = new Stack<>();
+        Stack <String> prefix = new Stack<>();
+
+        for(int ch = exp.length()-1;ch>=0;ch--){
+          char i = exp.charAt(ch);
+          if(Character.isDigit(i)){
+            answer.push(i - '0');
+            infix.push(i + "");
+            prefix.push(i + "");
+          }else{
+            int pop1 = answer.pop();
+            int pop2 =answer.pop();
+            answer.push(evaluate(pop1,pop2,i));
+
+            String popy1 =infix.pop();
+            String popy2 = infix.pop();
+            infix.push("(" + popy1 + i + popy2 + ")");
+
+            String popyy1 =prefix.pop();
+            String popyy2 = prefix.pop();
+            prefix.push( popyy1 + popyy2 +i);            
+          }
+        }
+        System.out.println(answer.peek());
+        System.out.println(infix.peek());
+        System.out.println(prefix.peek());
+    }
+    public static int evaluate(int a ,int b, char ch){
+
+      switch(ch){
+        case '+' : return a+b;
+        case '-' : return a-b;
+        case '/' : return a/b;
+        case '*' : return a*b;
+        default : return 0;
+      }
+    }
+}                         

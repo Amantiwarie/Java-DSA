@@ -1,0 +1,42 @@
+import java.util.*;
+
+public class Main {
+
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    String s = sc.next();
+    sc.close();
+    System.out.println(reverseParentheses(s));
+  }
+
+  public static String reverseParentheses(String s) {
+    Stack<Character> stack = new Stack<>();
+
+    for (char ch : s.toCharArray()) {
+      if (ch == ')') {
+        // Pop till '(' and collect characters to reverse
+        StringBuilder sb = new StringBuilder();
+        while (!stack.isEmpty() && stack.peek() != '(') {
+          sb.append(stack.pop());
+        }
+        // Pop the '('
+        if (!stack.isEmpty()) stack.pop();
+
+        // Push reversed characters back onto stack
+        for (char c : sb.toString().toCharArray()) {
+          stack.push(c);
+        }
+      } else {
+        stack.push(ch);
+      }
+    }
+
+    // Final result
+    StringBuilder result = new StringBuilder();
+    while (!stack.isEmpty()) {
+      result.append(stack.pop());
+    }
+
+    return result.reverse().toString(); // Reverse again because stack pops in reverse order
+  }
+}

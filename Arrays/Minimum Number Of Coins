@@ -1,21 +1,15 @@
-import java.io.*;
 import java.util.*;
 
 class Solution {
     public void coinChange(int num) {
-        int[] denominations = {500, 200, 100, 50, 20, 10, 5, 2, 1};
+        // Using denominations that match expected output (excluding 200)
+        int[] denominations = {500, 100, 50, 20, 10, 5, 2, 1};
 
         for (int coin : denominations) {
-            if (num >= coin) {
-                int count = num / coin;
-                num %= coin;
-
-                if (coin == 1) {
-                    System.out.println("Number Of 1 Rupee Note: " + count);
-                } else {
-                    System.out.println("Number Of " + coin + " Rupees Notes: " + count);
-                }
-            }
+            int count = num / coin;
+            num %= coin;
+            // Match expected phrasing
+            System.out.println("Number of " + coin + " Rupees Notes: " + count);
         }
     }
 }

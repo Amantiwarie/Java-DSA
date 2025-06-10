@@ -64,3 +64,45 @@ public class Main {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+leetcode
+
+class Solution {
+    public boolean find132pattern(int[] nums) {
+        Stack <Integer> st = new Stack<>();
+        int n = nums.length-1;
+        int second = Integer.MIN_VALUE;
+        for(int i =n;i>=0;i--){
+
+            if(nums[i]<second) return true;
+
+            while(!st.isEmpty() && nums[i]>st.peek()){
+                second =st.pop();
+            }
+            st.push(i);
+        }
+        return false;
+    }
+}

@@ -1,0 +1,70 @@
+import java.util.*;
+
+class Node {
+    int data;
+    Node link;
+}
+
+class StackUsingLinkedlist {
+    Node top;
+
+    StackUsingLinkedlist() { 
+        this.top = null; 
+    }
+
+    // Push operation to insert a value in the stack
+    public void push(int x) {
+        Node newNode = new Node();
+        newNode.data = x;
+        newNode.link = top;
+        top = newNode;
+    }
+
+    // Peek operation to return the top value of the stack
+    public int peek() {
+        if (top == null) {
+            return -1;
+        }
+        return top.data;
+    }
+
+    // Pop operation to remove a value from the top of the stack
+    public void pop() {
+        if (top != null) {
+            top = top.link;
+        }
+    }
+
+    // Display operation to return the head of the linked list
+    public Node display() {
+        return top;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        StackUsingLinkedlist obj = new StackUsingLinkedlist();
+        Scanner sc = new Scanner(System.in);
+        int q = sc.nextInt();
+        
+        while(q-- > 0) {
+            int x = sc.nextInt();
+            if(x == 1) {
+                int y = sc.nextInt();
+                obj.push(y);
+            } else if(x == 2) {
+                System.out.println(obj.peek());
+            } else if(x == 3) {
+                obj.pop();
+            } else if(x == 4) {
+                Node temp = obj.display();
+                while (temp != null) {
+                    System.out.print(temp.data + " ");
+                    temp = temp.link;
+                }
+                System.out.println();
+            }
+        }
+        sc.close();
+    }
+}

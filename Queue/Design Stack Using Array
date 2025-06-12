@@ -1,0 +1,77 @@
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+        StackUsingArray obj = new StackUsingArray();
+        Scanner sc = new Scanner(System.in);
+        int q;
+        q = sc.nextInt();
+        while (q-- > 0) {
+            int x;
+            x = sc.nextInt();
+            if (x == 1) {
+                int y;
+                y = sc.nextInt();
+                obj.push(y);
+            }
+            if (x == 2) {
+                System.out.println(obj.peek());
+            }
+            if (x == 3) {
+                obj.pop();
+            }
+            if (x == 4) {
+                obj.display();
+                System.out.println();
+            }
+        }
+        sc.close();
+    }
+}
+
+class StackUsingArray {
+
+    int [] arr;
+    int n , rear;
+
+    StackUsingArray() {
+        //Complete the function
+        n = 10000;
+        arr = new int [n];
+        rear =-1;
+    }
+
+    public void push(int x) {
+        //Complete the function
+        if(rear == n-1){
+            return;
+        }
+        rear = rear+1;
+        arr[rear] =x; 
+    }
+
+    public int peek() {
+        //Complete the function
+        if(rear == -1){
+            return -1;
+        }
+        int val = arr[rear];
+        return val;
+    }
+
+    public void pop() {
+        //Complete the function
+        if(rear == -1){
+            return ;
+        }
+        rear = rear-1;
+        
+    }
+
+    public void display() {
+        //Complete the function
+        for(int i =rear;i>=0;i--){
+            System.out.print(arr[i]+" ");
+        }
+    }
+}

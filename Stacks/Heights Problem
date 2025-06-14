@@ -1,0 +1,38 @@
+import java.util.*;
+
+class Accio {
+    static int[] HeightProblem(int n, int[] arr) {
+        int[] result = new int[n];
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = 0; i < n; i++) {
+            // Pop all elements that are greater or equal to the current element
+            while (!stack.isEmpty() && stack.peek() >= arr[i]) {
+                stack.pop();
+            }
+
+            // If stack is empty, there is no smaller element to the left
+            result[i] = stack.isEmpty() ? -1 : stack.peek();
+
+            // Push the current element into the stack
+            stack.push(arr[i]);
+        }
+        return result;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        int[] ans = Accio.HeightProblem(n, arr);
+        for (int i = 0; i < n; i++) {
+            System.out.print(ans[i] + " ");
+        }
+        sc.close();
+    }
+}

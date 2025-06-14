@@ -1,0 +1,42 @@
+import java.util.*;
+
+class Solution {
+    static int[] SlidingWindowMaximum(int N, int K, int[] arr) {
+        int[] res = new int[N - K + 1];
+        Deque<Integer> dq = new LinkedList<>();
+
+        for (int i = 0; i < N; i++) {
+            if (!dq.isEmpty() && dq.peek() <= i - K) {
+                dq.poll();
+            }
+
+            while (!dq.isEmpty() && arr[dq.peekLast()] < arr[i]) {
+                dq.pollLast();
+            }
+
+            dq.offer(i);
+
+            if (i >= K - 1) {
+                res[i - K + 1] = arr[dq.peek()];
+            }
+        }
+        return res;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] nums = new int[n];
+        for (int i = 0; i < n; i++) {
+            nums[i] = sc.nextInt();
+        }
+        Solution obj = new Solution();
+        int[] ans = obj.SlidingWindowMaximum(n, k, nums);
+        for (int i = 0; i < ans.length; ++i) {
+            System.out.print(ans[i] + " ");
+        }
+    }
+}

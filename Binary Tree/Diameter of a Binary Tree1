@@ -58,19 +58,22 @@ class Node {
 }
 
 class Solution {
-
-    
     public static int diameter(Node root) {
-        // Your code here
-        if(root==null){
-            return 0;
-        }
-        int ld=diameter(root.left);
-        int lh = diameter(root.left);
-        int rd =diameter(root.right);
-        int rh =diameter(root.right);
-        int sd =lh+rh+1;
+        if (root == null) return 0;
 
-         return Math.max(sd,(Math.max(ld,rd)));
+        int lh = height(root.left);
+        int rh = height(root.right);
+
+        int ld = diameter(root.left);
+        int rd = diameter(root.right);
+
+        int selfDiameter = lh + rh + 1;
+
+        return Math.max(selfDiameter, Math.max(ld, rd));
+    }
+
+    public static int height(Node root) {
+        if (root == null) return 0;
+        return Math.max(height(root.left), height(root.right)) + 1;
     }
 }

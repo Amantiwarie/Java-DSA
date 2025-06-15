@@ -1,0 +1,64 @@
+import java.util.*;
+
+class Node {
+    int val;
+    Node left, right;
+
+    Node(int val) {
+        this.val = val;
+        left = null;
+        right = null;
+    }
+}
+
+class BST {
+    Node root = null;
+
+    Node insert(Node root, int val) {
+        if (root == null) {
+            return new Node(val);
+        }
+        if (val < root.val) {
+            root.left = insert(root.left, val);
+        } else {
+            root.right = insert(root.right, val);
+        }
+        return root;
+    }
+}
+
+public class Main {
+
+    public static List<Integer> levelOrderTraversal(Node root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) return result;
+
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+
+        while (!q.isEmpty()) {
+            Node current = q.remove();
+            result.add(current.val);
+
+            if (current.left != null) q.add(current.left);
+            if (current.right != null) q.add(current.right);
+        }
+        return result;
+    }
+
+    public static void main(String args[]) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        BST t = new BST();
+
+        for (int i = 0; i < n; i++) {
+            t.root = t.insert(t.root, input.nextInt());
+        }
+
+        List<Integer> list = levelOrderTraversal(t.root);
+
+        for (int val : list) {
+            System.out.print(val + " ");
+        }
+    }
+}

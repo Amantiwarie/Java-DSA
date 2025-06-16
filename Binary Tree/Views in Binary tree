@@ -1,0 +1,131 @@
+import java.util.*;
+
+class Node {
+    int data;
+    Node left, right;
+    Node(int data) {
+        this.data = data;
+        left = null;
+        right = null;
+    }
+}
+
+class qObj {
+    Node node;
+    int level;
+    qObj(Node n, int l) {
+        node = n;
+        level = l;
+    }
+}
+
+class TreeViews {
+
+    // Top View
+    public static List<Integer> topView(Node root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) return result;
+
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        Queue<qObj> q = new LinkedList<>();
+        q.add(new qObj(root, 0));
+
+        while (!q.isEmpty()) {
+            qObj curr = q.poll();
+            if (!map.containsKey(curr.level)) {
+                map.put(curr.level, curr.node.data);
+            }
+            if (curr.node.left != null) q.add(new qObj(curr.node.left, curr.level - 1));
+            if (curr.node.right != null) q.add(new qObj(curr.node.right, curr.level + 1));
+        }
+
+        result.addAll(map.values());
+        return result;
+    }
+
+    // Bottom View
+    public static List<Integer> bottomView(Node root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) return result;
+
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        Queue<qObj> q = new LinkedList<>();
+        q.add(new qObj(root, 0));
+
+        while (!q.isEmpty()) {
+            qObj curr = q.poll();
+            map.put(curr.level, curr.node.data);
+            if (curr.node.left != null) q.add(new qObj(curr.node.left, curr.level - 1));
+            if (curr.node.right != null) q.add(new qObj(curr.node.right, curr.level + 1));
+        }
+
+        result.addAll(map.values());
+        return result;
+    }
+
+    // Left View
+    public static List<Integer> leftView(Node root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) return result;
+
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                Node node = q.poll();
+                if (i == 0) result.add(node.data);
+                if (node.left != null) q.add(node.left);
+                if (node.right != null) q.add(node.right);
+            }
+        }
+
+        return result;
+    }
+
+    // Right View
+    public static List<Integer> rightView(Node root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) return result;
+
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                Node node = q.poll();
+                if (i == size - 1) result.add(node.data);
+                if (node.left != null) q.add(node.left);
+                if (node.right != null) q.add(node.right);
+            }
+        }
+
+        return result;
+    }
+
+    // Vertical Order Traversal
+    public static List<List<Integer>> verticalOrder(Node root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) return result;
+
+        TreeMap<Integer, List<Integer>> map = new TreeMap<>();
+        Queue<qObj> q = new LinkedList<>();
+        q.add(new qObj(root, 0));
+
+        while (!q.isEmpty()) {
+            qObj curr = q.poll();
+            map.computeIfAbsent(curr.level, k -> new ArrayList<>()).add(curr.node.data);
+            if (curr.node.left != null) q.add(new qObj(curr.node.left, curr.level - 1));
+            if (curr.node.right != null) q.add(new qObj(curr.node.right, curr.level + 1));
+        }
+
+        for (List<Integer> group : map.values()) {
+            result.add(group);
+        }
+        return result;
+    }
+} 
+
+// You can now use these TreeViews methods in your main program to test any of the views.

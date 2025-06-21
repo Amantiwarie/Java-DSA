@@ -1,0 +1,75 @@
+Example 1
+Input
+
+6
+10 11 23 24 12 35
+23 11 24 10 35 12
+Output
+
+23 24 11 35 12 10
+
+
+
+import java.util.*;
+import java.io.*;
+class Node{
+    int data; 
+    Node left, right;
+    Node(int key){
+        data = key;
+        left = right = null;
+    }
+}
+
+class Main{
+    public static void main (String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        Node root = null;
+        int inorder[] = new int[n];
+        int preorder[] = new int[n];
+        for(int i = 0; i < n; i++)
+          preorder[i] = sc.nextInt();
+        for(int i = 0; i < n; i++)
+          inorder[i] = sc.nextInt();
+        Solution ob = new Solution();
+        root = ob.buildTree(inorder, preorder, n);
+        postOrdrer(root);
+        System.out.println();
+    }
+    
+    public static void postOrdrer(Node root){
+        if(root == null)
+          return;
+        postOrdrer(root.left);
+        postOrdrer(root.right);
+        System.out.print(root.data + " ");
+    }
+}
+
+
+class Solution{
+    private static int  idx;
+    public static Node tree(int preorder[],int start,int end,HashMap<Integer,Integer> map){
+        if(start>end){
+            return null;
+        }
+        int rootval = preorder[idx++];
+        Node root = new Node(rootval);
+
+        int mid = map.get(rootval);
+        root.left =tree(preorder,start,mid-1,map);
+        root.right =tree(preorder,mid+1,end,map);
+
+        return root;
+    }
+    public static Node buildTree(int inorder[], int preorder[], int n){
+        //Your code here 
+        HashMap<Integer,Integer> map =new HashMap<>();
+        for(int i=0;i<inorder.length;i++){
+            map.put(inorder[i],i);
+        }
+        idx =0;
+        return tree(preorder,0,preorder.length-1,map);
+    }
+}

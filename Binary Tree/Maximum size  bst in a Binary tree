@@ -1,0 +1,56 @@
+// Node class as given
+class Node {
+    int data;
+    Node left, right;
+
+    public Node(int d) {
+        data = d;
+        left = right = null;
+    }
+}
+
+// Helper class to hold info about subtrees
+class info {
+    int size;
+    int max;
+    int min;
+    boolean isbst;
+
+    public info(int size, int max, int min, boolean isbst) {
+        this.size = size;
+        this.max = max;
+        this.min = min;
+        this.isbst = isbst;
+    }
+}
+
+class Solution {
+
+    static int maxbst = 0;
+
+    static info bst(Node root) {
+        if (root == null) {
+            return new info(0, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
+        }
+
+        info left = bst(root.left);
+        info right = bst(root.right);
+
+        int size = left.size + right.size + 1;
+
+        // If current subtree is BST
+        if (left.isbst && right.isbst && root.data > left.max && root.data < right.min) {
+            maxbst = Math.max(maxbst, size);
+            return new info(size, Math.max(root.data, right.max), Math.min(root.data, left.min), true);
+        }
+
+        // Not a BST
+        return new info(size, Math.max(root.data, right.max), Math.min(root.data, left.min), false);
+    }
+
+    static int largestBst(Node root) {
+        maxbst = 0; // reset before each run
+        bst(root);
+        return maxbst;
+    }
+}

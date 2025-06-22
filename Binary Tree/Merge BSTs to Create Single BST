@@ -1,0 +1,67 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    private boolean isValidBST(TreeNode root, long min, long max) {
+        if (root == null) return true;
+        if (root.val <= min || root.val >= max) return false;
+        return isValidBST(root.left, min, root.val) && isValidBST(root.right, root.val, max);
+    }
+
+    private TreeNode mergeBST(TreeNode root, Map<Integer, TreeNode> rootNodes) {
+        if (root == null) return null;
+
+        if (root.left == null && root.right == null && rootNodes.containsKey(root.val)) {
+            TreeNode node = rootNodes.get(root.val);
+            root.left = node.left;
+            root.right = node.right;
+            rootNodes.remove(root.val);
+        }
+
+        root.left = mergeBST(root.left, rootNodes);
+        root.right = mergeBST(root.right, rootNodes);
+
+        return root;
+    }
+
+    public TreeNode canMerge(List<TreeNode> trees) {
+        Map<Integer, TreeNode> rootMap = new HashMap<>();
+        Set<Integer> leafValues = new HashSet<>();
+
+        for (TreeNode root : trees) {
+            rootMap.put(root.val, root);
+            if (root.left != null) leafValues.add(root.left.val);
+            if (root.right != null) leafValues.add(root.right.val);
+        }
+
+        TreeNode finalRoot = null;
+        for (TreeNode root : trees) {
+            if (!leafValues.contains(root.val)) {
+                finalRoot = root;
+                break;
+            }
+        }
+
+        if (finalRoot == null) return null;
+
+        rootMap.remove(finalRoot.val);
+        TreeNode merged = mergeBST(finalRoot, rootMap);
+
+        if (!rootMap.isEmpty()) return null;
+        if (!isValidBST(merged, Long.MIN_VALUE, Long.MAX_VALUE)) return null;
+
+        return merged;
+    }
+}

@@ -1,0 +1,61 @@
+import java.io.*;
+import java.util.*;
+
+class Main {
+    public static void main(String args[]) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int M = sc.nextInt();
+
+        ArrayList<ArrayList<Integer>> Edges = new ArrayList<ArrayList<Integer>>();
+        for (int i = 0; i < M; i++) {
+            ArrayList<Integer> e = new ArrayList<Integer>();
+            e.add(sc.nextInt());
+            e.add(sc.nextInt());
+            Edges.add(e);
+        }
+        int U=sc.nextInt();
+        int V=sc.nextInt();
+        Solution ob = new Solution();
+        if (ob.check(N, M, Edges,U,V)) {
+            System.out.println(1);
+        } else {
+            System.out.println(0);
+        }
+        sc.close();
+    }
+
+}
+
+class Solution {
+    boolean check(int N, int M, ArrayList<ArrayList<Integer>> Edges, int U, int V) {
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i <= N; i++) {
+            graph.add(new ArrayList<>());
+        }
+
+        // build the undirected graph
+        for (ArrayList<Integer> edge : Edges) {
+            int u = edge.get(0);
+            int v = edge.get(1);
+            graph.get(u).add(v);
+            graph.get(v).add(u);
+        }
+
+        boolean[] visited = new boolean[N + 1];
+        return dfs(graph, U, V, visited);
+    }
+
+    boolean dfs(List<List<Integer>> graph, int current, int target, boolean[] visited) {
+        if (current == target) return true;
+
+        visited[current] = true;
+
+        for (int neighbor : graph.get(current)) {
+            if (!visited[neighbor]) {
+                if (dfs(graph, neighbor, target, visited)) return true;
+            }
+        }
+        return false;
+    }
+}

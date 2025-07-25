@@ -1,0 +1,24 @@
+import java.util.*;
+
+class Solution {
+    public static String hasUnique(String str) {
+        Set<Character> seen = new HashSet<>();
+
+        for (char ch : str.toCharArray()) {
+            if (seen.contains(ch)) {
+                return "No";  // Duplicate found
+            }
+            seen.add(ch);
+        }
+        return "Yes";  // All characters are unique
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        Solution Obj = new Solution();
+        System.out.println(Obj.hasUnique(str));
+    }
+}

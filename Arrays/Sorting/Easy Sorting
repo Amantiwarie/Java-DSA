@@ -1,0 +1,57 @@
+Easy Sorting
+An array of 5 strings is given where each string contains 2 characters, Now you have to sort these strings using insertion sort, like in a dictionary.
+
+Input Format
+Input contains 5 strings of length 2 separated by spaces. String contains only uppercase English letters.
+
+Output Format
+Print the sorted array.
+
+Example 1
+Input
+
+AS KF ER DD JK
+Output
+
+AS DD ER JK KF
+Explanation
+
+Strings after sorting are as shown in the output
+
+import java.util.*;
+
+class Accio {
+    static ArrayList<String> EasySorting(String[] arr) {
+        for (int i = 1; i < arr.length; i++) {
+            String key = arr[i];
+            int j = i - 1;
+
+            // Compare strings lexicographically
+            while (j >= 0 && arr[j].compareTo(key) > 0) {
+                arr[j + 1] = arr[j]; // Shift element right
+                j--;
+            }
+            arr[j + 1] = key; // Insert the key
+        }
+
+        ArrayList<String> result = new ArrayList<>();
+        for (String s : arr) {
+            result.add(s);
+        }
+        return result;
+    }
+}
+
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        Scanner sc = new Scanner(System.in);
+        String[] arr = new String[5];
+        for(int i=0;i<5;++i){
+            arr[i] = sc.next();
+        } 
+        Accio obj = new Accio();
+        ArrayList <String> ans=obj.EasySorting(arr);
+        for(String i:ans) System.out.print(i+" ");
+    }
+}

@@ -1,0 +1,50 @@
+class Solution {
+    static class Pair{
+        int r,c,s;
+        Pair(int r,int c, int s){
+            this.r = r;
+            this.c = c; 
+            this.s =s;
+        }
+    }
+    public int[][] updateMatrix(int[][] mat) {
+        int n = mat.length;
+        int m = mat[0].length;
+        int [][]dist = new int[n][m];
+        boolean vis[][] = new boolean[n][m];
+
+        Queue<Pair> q = new LinkedList<>();
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(mat[i][j] == 0){
+                    q.offer(new Pair(i,j,0));
+                    vis[i][j] = true;
+                }else {
+                    vis[i][j] = false;
+                }
+            }
+        }
+
+        int []dx = {-1,0,1,0};
+        int []dy = {0,1,0,-1};
+
+        while(!q.isEmpty()){
+            Pair curr = q.poll();
+            int row = curr.r;
+            int col = curr.c;
+            int step = curr.s;
+            dist[row][col] = step;
+
+            for(int i=0; i<4; i++){
+                int nRow = row + dx[i];
+                int nCol = col + dy[i];
+
+                if(nRow>=0 && nCol>=0 && nRow <n && nCol <m && !vis[nRow][nCol]){
+                    q.offer(new Pair(nRow,nCol,step+1));
+                    vis[nRow][nCol] = true;
+                }
+            }
+        }
+        return dist;
+    }
+}

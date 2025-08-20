@@ -1,0 +1,39 @@
+import java.io.*;
+import java.util.*;
+
+class Main {
+    public static void main(String args[]) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+
+        int nums[] = new int[n];
+        for (int i = 0; i < n; i++)
+            nums[i] = sc.nextInt();
+
+        Solution obj = new Solution();
+        obj.solve(nums, n, k);
+    }
+}
+
+class Solution {
+    static void solve(int nums[], int n, int k) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        freq.put(0, 1); // base case: 0 odds seen initially
+
+        int countOdd = 0, ans = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (nums[i] % 2 != 0) countOdd++;  // increase odd count if element is odd
+            
+            // if (countOdd - k) exists, add its frequency to answer
+            ans += freq.getOrDefault(countOdd - k, 0);
+            
+            // update frequency map
+            freq.put(countOdd, freq.getOrDefault(countOdd, 0) + 1);
+        }
+
+        System.out.println(ans);
+    }
+}

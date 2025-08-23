@@ -1,0 +1,63 @@
+Given an array A of positive integers of size N, where each value represents the number of chocolates in a packet. Each packet can have a variable number of chocolates. There are M students, the task is to distribute chocolate packets among M students such that :
+
+Each student gets exactly one packet.
+The difference between maximum number of chocolates given to a student and minimum number of chocolates given to a student is minimum.
+Input Format
+The first line of the input contains the integers N and M, the size of the array of the packets of chocolates, and the number of students.
+
+The second line contains N space separated integers, denoting the number of chocolates in each packet.
+
+Output Format
+Return the minimum possible difference between the student getting the maximum and the student getting the minimum number of chocolates.
+
+Example 1
+Input
+
+8 5
+3 4 1 9 56 7 9 12
+Output
+
+6
+Explanation
+
+The minimum difference between maximum chocolates and minimum chocolates is 9 - 3 = 6 by choosing following M packets :
+
+{3, 4, 9, 7, 9}
+
+
+
+
+import java.io.*;
+import java.util.*;
+
+class Main {
+    public static void main(String args[]) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt(), m = input.nextInt();
+        int a[] = new int[n];
+        for(int i = 0; i < n; i++){
+            a[i] = input.nextInt();
+        }
+        Solution s = new Solution();
+        System.out.println(s.minChocolateDifference(a, n, m));
+    }
+}
+
+class Solution {
+
+    public static int minChocolateDifference(int a[], int n, int m) {
+        if (m == 0 || n == 0) return 0;
+        if (m > n) return -1; // not enough packets for students
+
+        Arrays.sort(a);
+
+        int minDiff = Integer.MAX_VALUE;
+
+        for (int i = 0; i + m - 1 < n; i++) {
+            int diff = a[i + m - 1] - a[i];
+            minDiff = Math.min(minDiff, diff);
+        }
+
+        return minDiff;
+    }
+}

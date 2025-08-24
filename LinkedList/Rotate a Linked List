@@ -1,0 +1,106 @@
+Input
+
+6
+10 20 30 40 50 60
+4
+Output
+
+50 60 10 20 30 40 
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        LinkedList llist= new LinkedList(); 
+        int a1=sc.nextInt();
+        Node head= new Node(a1);
+        llist.addToTheLast(head);
+        for (int i = 1; i < n; i++) 
+        {
+            int a = sc.nextInt(); 
+            llist.addToTheLast(new Node(a));
+        }
+        int k = sc.nextInt();
+        Solution A = new Solution();
+        llist.head = A.rotate(llist.head, k);
+        llist.printList();
+        
+    }
+}
+
+class Node
+    {
+        int data;
+        Node next;
+        Node(int d) {data = d; next = null; }
+    }
+    
+class LinkedList
+{
+    Node head;  
+    Node tail;
+    public void addToTheLast(Node node) 
+    {
+      if (head == null) 
+      {
+       head = node;
+       tail = node;
+      } 
+      else 
+      {
+       tail.next = node;
+       tail = node;
+      }
+    }
+      void printList()
+    {
+        Node temp = head;
+        while (temp != null)
+        {
+           System.out.print(temp.data+" ");
+           temp = temp.next;
+        }  
+        System.out.println();
+    }
+    
+}
+
+class Solution
+{
+    public static Node rotate(Node head, int k)
+    {
+        if (head == null || head.next == null || k == 0) 
+            return head;
+
+        // Step 1: Find length
+        Node curr = head;
+        int length = 1;
+        while (curr.next != null) {
+            curr = curr.next;
+            length++;
+        }
+
+        // Step 2: Normalize k
+        k = k % length;
+        if (k == 0) return head;
+
+        // Step 3: Traverse to k-th node
+        Node kthNode = head;
+        for (int i = 1; i < k; i++) {
+            kthNode = kthNode.next;
+        }
+
+        // Step 4: New head will be next of kth node
+        Node newHead = kthNode.next;
+
+        // Step 5: Break the list
+        kthNode.next = null;
+
+        // Step 6: Old tail connect to old head
+        curr.next = head;
+
+        return newHead;
+    }
+}

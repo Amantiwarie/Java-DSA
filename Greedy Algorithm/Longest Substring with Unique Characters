@@ -1,0 +1,57 @@
+
+You are given a string s. Your task is to find the length of the longest substring that contains each character at most once.
+
+A substring is a contiguous sequence of characters within a string.
+
+Input Format
+First line contains the string s.
+
+Output Format
+Complete the function longestSubstring() where you return the required integer.
+
+Example 1
+Input
+
+xyzxyzyy
+Output
+
+3
+Explanation
+
+The answer is "xyz ", with the length of 3
+
+import java.util.*;
+
+class Solution {
+    public int longestSubstring(String s) {
+        int n = s.length();
+        if (n == 0) return 0;
+
+        Set<Character> set = new HashSet<>();
+        int left = 0, maxLen = 0;
+
+        for (int right = 0; right < n; right++) {
+            // if duplicate found, shrink window from left
+            while (set.contains(s.charAt(right))) {
+                set.remove(s.charAt(left));
+                left++;
+            }
+            // add current character
+            set.add(s.charAt(right));
+            // update max length
+            maxLen = Math.max(maxLen, right - left + 1);
+        }
+
+        return maxLen;
+    }
+}
+
+public class Main {
+    public static void main (String[] args) throws java.lang.Exception {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
+        Solution ob = new Solution();
+        int ans = ob.longestSubstring(s);
+        System.out.println(ans);
+    }
+}

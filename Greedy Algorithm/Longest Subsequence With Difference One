@@ -1,0 +1,42 @@
+Example 1
+Input
+
+5
+4 2 1 5 6
+Output
+
+3
+Explanation
+
+The longest subsequence satisfying the condition is {4, 5, 6}.
+
+import java.util.*;
+
+class Accio {
+    public int longestSubsequence(int[] nums) {
+        Map<Integer, Integer> dp = new HashMap<>();
+        int maxLen = 1;
+
+        for (int num : nums) {
+            int len1 = dp.getOrDefault(num - 1, 0);
+            int len2 = dp.getOrDefault(num + 1, 0);
+            int best = 1 + Math.max(len1, len2);
+
+            dp.put(num, Math.max(dp.getOrDefault(num, 0), best));
+            maxLen = Math.max(maxLen, dp.get(num));
+        }
+        return maxLen;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int[] nums = new int[N];
+        for (int i = 0; i < N; i++)
+            nums[i] = sc.nextInt();
+        Accio Obj = new Accio();
+        System.out.println(Obj.longestSubsequence(nums));
+    }
+}

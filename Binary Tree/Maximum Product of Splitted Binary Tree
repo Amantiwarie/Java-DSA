@@ -1,0 +1,111 @@
+The problem is to find two subtrees from a given binary tree, by removing one edge between the nodes such that the product of the sum of the elements of the two subtrees is maximum. The answer should be taken modulo 10^9 + 7. And one thing to note is that maximizing the answer before taking mod is important.
+
+Input Format
+Single line contains separted elements of tree in level order
+
+Output Format
+Print the maximum product of two subtrees.
+
+Example 1
+Input
+
+1 2 3 4
+Output
+
+24
+Explanation
+
+     1
+   /  \
+  2    3
+ /
+4
+Break 2-4 edge and muliply 6*4= 24.
+
+import java.util.*;
+
+class TreeNode {
+    int data;
+    TreeNode left, right;
+    public TreeNode(int data) {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+class Solution {
+    static long totalSum = 0;
+    static long maxProductValue = 0;
+    static final int MOD = 1000000007;
+
+    // First DFS to calculate total sum
+    private static long computeTotalSum(TreeNode root) {
+        if (root == null) return 0;
+        return root.data + computeTotalSum(root.left) + computeTotalSum(root.right);
+    }
+
+    // Second DFS to calculate subtree sums and track max product
+    private static long computeSubtree(TreeNode root) {
+        if (root == null) return 0;
+
+        long left = computeSubtree(root.left);
+        long right = computeSubtree(root.right);
+
+        long currSum = root.data + left + right;
+
+        // Potential product if we "cut" here
+        long product = currSum * (totalSum - currSum);
+        maxProductValue = Math.max(maxProductValue, product);
+
+        return currSum;
+    }
+
+    public static int maxProduct(TreeNode root) {
+        totalSum = computeTotalSum(root);  // Total sum of tree
+        maxProductValue = 0;
+        computeSubtree(root);
+        return (int)(maxProductValue % MOD);
+    }
+}
+
+class Main {
+    public static TreeNode buildTree(String str) {
+        if (str.length() == 0 || str.charAt(0) == 'N')
+            return null;
+
+        String[] nodes = str.split(" ");
+        Queue<TreeNode> queue = new LinkedList<>();
+        TreeNode root = new TreeNode(Integer.parseInt(nodes[0]));
+        queue.add(root);
+
+        int i = 1;
+        while (!queue.isEmpty() && i < nodes.length) {
+            TreeNode currNode = queue.poll();
+
+            String currVal = nodes[i];
+            if (!currVal.equals("N")) {
+                currNode.left = new TreeNode(Integer.parseInt(currVal));
+                queue.add(currNode.left);
+            }
+            i++;
+            if (i >= nodes.length) break;
+
+            currVal = nodes[i];
+            if (!currVal.equals("N")) {
+                currNode.right = new TreeNode(Integer.parseInt(currVal));
+                queue.add(currNode.right);
+            }
+            i++;
+        }
+        return root;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
+        TreeNode root = buildTree(s);
+        int ans = Solution.maxProduct(root);
+        System.out.println(ans);
+    }
+}

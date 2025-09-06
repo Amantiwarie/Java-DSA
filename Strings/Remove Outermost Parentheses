@@ -1,0 +1,64 @@
+
+A valid parentheses string is either empty "", "(" + A + ")", or A + B, where A and B are valid parentheses strings, and + represents string concatenation.
+
+For example, "", "()", "(())()", and "(()(()))" are all valid parentheses strings.
+
+A valid parentheses string s is primitive if it is nonempty, and there does not exist a way to split it into s = A + B, with A and B nonempty valid parentheses strings.
+
+Given a valid parentheses string s, consider its primitive decomposition: s = P1 + P2 + ... + Pk, where Pi are primitive valid parentheses strings.
+
+print s after removing the outermost parentheses of every primitive string in the primitive decomposition of s.
+
+Input Format
+The first line contains a single integer n(length of string)
+
+Second line conatins the string s of size n
+
+Output Format
+print the modified string
+
+Example 1
+Input
+
+10
+(()())(())
+Output
+
+()()()
+Explanation
+
+The input string is "(()())(())", with primitive decomposition "(()())" + "(())".
+
+After removing outer parentheses of each part, this is "()()" + "()" = "()()()".
+
+import java.util.*;
+
+public class Main {
+
+    public static String removeparentheses(String s, int n) {
+        StringBuilder result = new StringBuilder();
+        int open = 0; // counter for balance
+
+        for (char ch : s.toCharArray()) {
+            if (ch == '(') {
+                if (open > 0) {
+                    result.append(ch);
+                }
+                open++;
+            } else {
+                open--;
+                if (open > 0) {
+                    result.append(ch);
+                }
+            }
+        }
+        return result.toString();
+    }
+
+    public static void main(String[] args) throws Throwable {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        String s = sc.next();
+        System.out.println(removeparentheses(s, n));
+    }
+}

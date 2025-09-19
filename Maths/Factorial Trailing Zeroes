@@ -1,0 +1,19 @@
+Example 1:
+
+Input: n = 3
+Output: 0
+Explanation: 3! = 6, no trailing zero.
+
+
+class Solution {
+    public int trailingZeroes(int n) {
+        int cnt = 0;
+
+        while (n > 0) {
+            n /= 5;
+            cnt += n;
+        }
+
+        return cnt;
+    }
+}

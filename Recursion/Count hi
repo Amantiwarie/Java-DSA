@@ -1,0 +1,23 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static int countHi(String s, int idx){
+        // Base case: less than 2 chars left
+        if (idx >= s.length() - 1) return 0;
+
+        // Check if "hi" occurs at current index
+        if (s.charAt(idx) == 'h' && s.charAt(idx + 1) == 'i') {
+            return 1 + countHi(s, idx + 2); // move 2 ahead
+        } else {
+            return countHi(s, idx + 1);     // move 1 ahead
+        }
+    }
+
+    public static void main(String args[]) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        String s = input.next();
+        System.out.println(countHi(s, 0));
+    }
+}

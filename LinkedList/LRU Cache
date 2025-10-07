@@ -1,0 +1,70 @@
+import java.util.HashMap;
+
+class LRUCache {
+    class Node {
+        int k, v;
+        Node next, prev;
+
+        Node(int k, int v) {
+            this.k = k;
+            this.v = v;
+        }
+    }
+
+    private final int capacity;
+    private Node head, tail;
+    private HashMap<Integer, Node> map;
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        this.map = new HashMap<>();
+
+        head = new Node(0, 0);
+        tail = new Node(0, 0);
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    // 🔹 unlink only (don’t remove from map)
+    public void remove(Node node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    // 🔹 insert to head (MRU position)
+    public void insert(Node node) {
+        node.next = head.next;
+        node.prev = head;
+
+        head.next.prev = node;
+        head.next = node;
+    }
+
+    public int get(int key) {
+        if (!map.containsKey(key)) return -1;
+
+        Node node = map.get(key);
+        remove(node);     // unlink
+        insert(node);     // move to head (MRU)
+        return node.v;
+    }
+
+    public void put(int key, int value) {
+        if (map.containsKey(key)) {
+            Node old = map.get(key);
+            remove(old);   // unlink old node
+            map.remove(key); // remove old entry (since we’ll reinsert)
+        }
+
+        if (map.size() == capacity) {
+            // remove LRU node (just before tail)
+            Node lru = tail.prev;
+            remove(lru);
+            map.remove(lru.k);
+        }
+
+        Node node = new Node(key, value);
+        insert(node);
+        map.put(key, node);
+    }
+}

@@ -1,0 +1,44 @@
+import java.util.*;
+
+class Solution {
+
+    static int flipBits(int[] arr, int n) {
+        int origOnes = 0;
+        for (int num : arr) {
+            if (num == 1) origOnes++;
+        }
+
+        int maxGain = Integer.MIN_VALUE;
+        int currSum = 0;
+
+        for (int i = 0; i < n; i++) {
+            // Replace 0 -> +1, 1 -> -1
+            int val = (arr[i] == 0) ? 1 : -1;
+
+            currSum += val;
+            if (currSum > maxGain)
+                maxGain = currSum;
+            if (currSum < 0)
+                currSum = 0;
+        }
+
+        // If all are 1s, best we can do is flip one element (to reduce only one 1)
+        if (origOnes == n)
+            return n - 1;
+
+        return origOnes + maxGain;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        int ans = Solution.flipBits(arr, n);
+        System.out.println(ans);
+    }
+}

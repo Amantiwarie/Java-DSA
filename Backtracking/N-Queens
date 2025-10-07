@@ -1,0 +1,52 @@
+import java.util.*;
+
+class Solution {
+    public List<List<String>> solveNQueens(int n) {
+        char[][] board = new char[n][n];
+        
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                board[i][j] = '.';
+            }
+        }
+        
+        List<List<String>> ans = new ArrayList<>();
+        queens(board, 0, ans, n);
+        return ans;
+    }
+
+    public boolean isSafe(char[][] board, int i, int j, int n) {
+        for (int a = 0; a < i; a++) {
+            if (board[a][j] == 'Q') return false;
+        }
+
+        for (int a = i, b = j; a >= 0 && b >= 0; a--, b--) {
+            if (board[a][b] == 'Q') return false;
+        }
+
+        for (int a = i, b = j; a >= 0 && b < n; a--, b++) {
+            if (board[a][b] == 'Q') return false;
+        }
+
+        return true;
+    }
+
+    public void queens(char[][] board, int i, List<List<String>> ans, int n) {
+        if (i == n) {
+            List<String> curr = new ArrayList<>();
+            for (int a = 0; a < n; a++) {
+                curr.add(new String(board[a]));
+            }
+            ans.add(curr);
+            return;
+        }
+
+        for (int j = 0; j < n; j++) {
+            if (isSafe(board, i, j, n)) {
+                board[i][j] = 'Q';
+                queens(board, i + 1, ans, n);
+                board[i][j] = '.';
+            }
+        }
+    }
+}

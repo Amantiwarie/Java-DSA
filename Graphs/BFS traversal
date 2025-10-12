@@ -1,0 +1,27 @@
+class Solution {
+    // Function to return Breadth First Search Traversal of given graph.
+    public ArrayList<Integer> bfs(ArrayList<ArrayList<Integer>> adj) {
+        ArrayList<Integer> res = new ArrayList<>();
+        boolean[] visited = new boolean[adj.size()];
+        Queue<Integer> q = new LinkedList<>();
+
+        int s = 0; // starting node
+        visited[s] = true;
+        q.add(s);
+
+        while (!q.isEmpty()) {
+            int node = q.poll();
+            res.add(node);
+
+            // using normal for loop to visit all adjacent nodes
+            for (int i = 0; i < adj.get(node).size(); i++) {
+                int neighbor = adj.get(node).get(i);
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    q.add(neighbor);
+                }
+            }
+        }
+        return res;
+    }
+}

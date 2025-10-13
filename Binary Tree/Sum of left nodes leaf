@@ -1,0 +1,85 @@
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+
+class Solution {
+    int SumLeftLeaves(TreeNode root) {
+        if (root == null) return 0;
+
+        int sum = 0;
+
+        // If the left child exists
+        if (root.left != null) {
+            // Check if it's a leaf (no left/right children)
+            if (root.left.left == null && root.left.right == null)
+                sum += root.left.data;
+            else
+                sum += SumLeftLeaves(root.left);
+        }
+
+        // Always check right side (for any further left leaves deeper in right subtree)
+        sum += SumLeftLeaves(root.right);
+
+        return sum;
+    }
+}
+
+class TreeNode {
+    int data;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(int data) {
+        this.data = data;
+        left = null;
+        right = null;
+    }
+}
+
+class Main {
+
+    static TreeNode buildTree(String str) {
+        if (str.length() == 0 || str.charAt(0) == 'N')
+            return null;
+
+        String ip[] = str.split(" ");
+        TreeNode root = new TreeNode(Integer.parseInt(ip[0]));
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        int i = 1;
+        while (queue.size() > 0 && i < ip.length) {
+            TreeNode currNode = queue.peek();
+            queue.remove();
+
+            String currVal = ip[i];
+            if (!currVal.equals("N")) {
+                currNode.left = new TreeNode(Integer.parseInt(currVal));
+                queue.add(currNode.left);
+            }
+            i++;
+            if (i >= ip.length)
+                break;
+
+            currVal = ip[i];
+            if (!currVal.equals("N")) {
+                currNode.right = new TreeNode(Integer.parseInt(currVal));
+                queue.add(currNode.right);
+            }
+            i++;
+        }
+        return root;
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine());
+        while (t > 0) {
+            String s = br.readLine();
+            TreeNode root = buildTree(s);
+            Solution ob = new Solution();
+            int ans = ob.SumLeftLeaves(root);
+            System.out.println(ans);
+            t--;
+        }
+    }
+}

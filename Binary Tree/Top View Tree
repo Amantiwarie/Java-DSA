@@ -1,0 +1,78 @@
+import java.util.*;
+import java.io.*;
+
+class Node {
+    int data;
+    Node left, right;
+    Node(int data) {
+        this.data = data;
+        left = right = null;
+    }
+}
+
+public class Main {
+
+    // Function to insert into BST
+    static Node insert(Node root, int key) {
+        if (root == null) return new Node(key);
+        if (key < root.data) root.left = insert(root.left, key);
+        else root.right = insert(root.right, key);
+        return root;
+    }
+
+    // Function to print Top View of the tree
+    static void topView(Node root) {
+        if (root == null) return;
+
+        // TreeMap to store first node at each horizontal distance
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+
+        // Queue for BFS → stores pairs of (node, horizontal distance)
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(root, 0));
+
+        while (!q.isEmpty()) {
+            Pair p = q.poll();
+            Node node = p.node;
+            int hd = p.hd;
+
+            // If this horizontal distance is seen first time
+            if (!map.containsKey(hd)) {
+                map.put(hd, node.data);
+            }
+
+            // Add left and right children with updated HD
+            if (node.left != null) q.add(new Pair(node.left, hd - 1));
+            if (node.right != null) q.add(new Pair(node.right, hd + 1));
+        }
+
+        // Print result
+        for (int val : map.values()) {
+            System.out.print(val + " ");
+        }
+    }
+
+    // Helper class for queue
+    static class Pair {
+        Node node;
+        int hd;
+        Pair(Node node, int hd) {
+            this.node = node;
+            this.hd = hd;
+        }
+    }
+
+    public static void main(String args[]) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine().trim());
+        String[] vals = br.readLine().trim().split(" ");
+
+        Node root = null;
+        for (int i = 0; i < n; i++) {
+            int val = Integer.parseInt(vals[i]);
+            root = insert(root, val);
+        }
+
+        topView(root);
+    }
+}

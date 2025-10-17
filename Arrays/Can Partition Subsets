@@ -1,0 +1,63 @@
+import java.util.*;
+
+public class Main {
+
+    // Helper recursive function
+    static boolean backtrack(int[] nums, boolean[] used, int k, int start, int currSum, int target) {
+        // If we formed k-1 subsets successfully, last one is automatically valid
+        if (k == 1) return true;
+
+        // If current subset sum reached target, move to form next subset
+        if (currSum == target)
+            return backtrack(nums, used, k - 1, 0, 0, target);
+
+        // Try including unused numbers
+        for (int i = start; i < nums.length; i++) {
+            if (used[i]) continue; // already used
+
+            // If adding this element exceeds target, skip
+            if (currSum + nums[i] > target) continue;
+
+            used[i] = true; // choose
+            if (backtrack(nums, used, k, i + 1, currSum + nums[i], target))
+                return true;
+            used[i] = false; // unchoose (backtrack)
+        }
+
+        return false;
+    }
+
+    public static boolean canPartitionKSubsets(int[] nums, int n, int K) {
+        int total = 0;
+        for (int num : nums) total += num;
+
+        // If total is not divisible by K, impossible
+        if (total % K != 0) return false;
+
+        int target = total / K;
+        Arrays.sort(nums);
+        int largest = nums[n - 1];
+
+        // If largest element is greater than target, impossible
+        if (largest > target) return false;
+
+        boolean[] used = new boolean[n];
+        return backtrack(nums, used, K, 0, 0, target);
+    }
+
+    public static void main(String[] args) throws Throwable {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+
+        while (t > 0) {
+            t--;
+            int n = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++)
+                arr[i] = sc.nextInt();
+            int k = sc.nextInt();
+
+            System.out.println(canPartitionKSubsets(arr, n, k));
+        }
+    }
+}

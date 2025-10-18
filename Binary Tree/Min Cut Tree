@@ -18,11 +18,12 @@ class Solution {
                 if (h > mid) wood += (h - mid);
             }
 
-            if (wood >= k) {
-                // We can collect enough or more wood → try smaller X
-                ans = mid;
-                low = mid + 1; // we want MINIMUM X that still gives at most K wood
+            if (wood > k) {
+                // Collected too much wood -> need to cut higher
+                low = mid + 1;
             } else {
+                // Wood <= K, valid -> try smaller X
+                ans = mid;
                 high = mid - 1;
             }
         }

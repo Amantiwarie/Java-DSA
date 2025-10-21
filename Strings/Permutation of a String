@@ -1,0 +1,44 @@
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        Solution ob = new Solution();
+        ob.printPermutaions(str);
+        sc.close();
+    }
+}
+
+class Solution {
+    public void printPermutaions(String str) {
+        char[] chars = str.toCharArray();
+        Arrays.sort(chars); // sort to ensure lexicographic order
+        List<String> result = new ArrayList<>();
+        permute(chars, 0, result);
+
+        // print each permutation on a new line
+        for (String s : result) {
+            System.out.println(s);
+        }
+    }
+
+    private void permute(char[] arr, int index, List<String> result) {
+        if (index == arr.length - 1) {
+            result.add(new String(arr));
+            return;
+        }
+
+        for (int i = index; i < arr.length; i++) {
+            swap(arr, index, i);
+            permute(arr, index + 1, result);
+            swap(arr, index, i); // backtrack
+        }
+    }
+
+    private void swap(char[] arr, int i, int j) {
+        char temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}

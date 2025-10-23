@@ -1,0 +1,59 @@
+import java.util.Scanner;
+
+import java.util.*;
+
+class Solution {
+    public static int minEatingSpeed(int[] piles, int H) {
+        // Your code here
+        int left =1;
+        int right =0;
+
+        for(int i : piles){
+           right = Math.max(right,i);
+        }
+        int ans =0;
+        while(left<=right){
+            int mid =left +(right-left)/2;
+
+            if(canfind(piles,mid,H)){
+                ans=mid;
+                right=mid-1;
+            }else{
+                left=mid+1;
+            }
+        }
+        return ans;
+
+    }
+
+    public static boolean canfind(int []piles,int mid,int H){
+        long h = 0;
+
+        for(int i =0;i<piles.length;i++){
+            h+=piles[i]/mid;
+            if(piles[i]%mid!=0){
+                h++;
+            }
+        }
+        return h<=H;
+    } 
+}
+
+
+
+
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int size = scanner.nextInt();
+
+        int[] array = new int[size];
+        for (int i = 0; i < size; i++) {
+            array[i] = scanner.nextInt();
+        }
+        int h = scanner.nextInt();
+        System.out.println(Solution.minEatingSpeed(array, h));
+        scanner.close();
+    }
+}

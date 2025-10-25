@@ -1,0 +1,83 @@
+
+You have two arrays, a and b, with a length of n. You are allowed to reverse at most one subarray of array a in order to maximize the sum of (a[i]*b[i]) for i ranging from 1 to n.
+
+Input Format
+The first line contains one integer n.
+
+The second line contains n integers a1,a2,…,an.
+
+The third line contains n integers b1,b2,…,bn.
+
+Output Format
+Print single integer — maximum possible sum after reversing at most one subarray
+
+Example 1
+Input
+
+3
+2 3 2
+1 5 4
+Output
+
+25
+Explanation
+
+we reverse the second array completely and then multiply and add.
+
+
+import java.util.*;
+
+class Solution {
+    public static int maxProduct(int[] a, int[] b) {
+        int n = a.length;
+        long originalSum = 0;
+        for (int i = 0; i < n; i++) {
+            originalSum += 1L * a[i] * b[i];
+        }
+
+        long maxGain = 0;
+
+        // Case 1: Odd length subarray (center at i)
+        for (int center = 0; center < n; center++) {
+            long currGain = 0;
+            int l = center - 1, r = center + 1;
+            while (l >= 0 && r < n) {
+                currGain += 1L * (a[l] * b[r] + a[r] * b[l]) - 1L * (a[l] * b[l] + a[r] * b[r]);
+                maxGain = Math.max(maxGain, currGain);
+                l--;
+                r++;
+            }
+        }
+
+        // Case 2: Even length subarray (center between i and i+1)
+        for (int center = 0; center < n - 1; center++) {
+            long currGain = 0;
+            int l = center, r = center + 1;
+            while (l >= 0 && r < n) {
+                currGain += 1L * (a[l] * b[r] + a[r] * b[l]) - 1L * (a[l] * b[l] + a[r] * b[r]);
+                maxGain = Math.max(maxGain, currGain);
+                l--;
+                r++;
+            }
+        }
+
+        return (int)(originalSum + maxGain);
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        int[] b = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+        for (int i = 0; i < n; i++) {
+            b[i] = sc.nextInt();
+        }
+        System.out.println(Solution.maxProduct(a, b));
+        sc.close();
+    }
+}

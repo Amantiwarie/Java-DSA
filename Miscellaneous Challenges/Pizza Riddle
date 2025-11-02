@@ -1,0 +1,119 @@
+Robert works as a chef at a pizza place. He has only three kinds of pizza bases:- big, medium, and small.
+
+There are a fixed number of bases for each size.
+
+Design a pizza base management system for his kitchen.
+
+Implement the PizzaBase class:
+
+`PizzaBase(int big, int medium, int small)` Initializes object of the PizzaBase class. The number of bases for each pizza size are given as part of the constructor.
+`bool checkBase(int pizzaSize)` Checks whether there is a pizza base available of pizzaSize for the pizza ordered. pizzaSize can be of three kinds: big, medium, or small, which are represented by 1, 2, and 3 respectively. If there is no base available, return false, else make a pizza from a base of that size and return true.
+Input Format
+The first line contains q which denotes the total number of operations to be performed.
+
+Each query contains a single integer that denotes the size of the required pizza base.
+
+Output Format
+Return the result for every query of the type checkBase.
+
+Example 1
+Input
+
+5
+2 1 1
+3
+3
+2
+2
+3
+Output
+
+true
+false
+true
+false
+false
+Explanation
+
+Initially 2 Big, 1 Medium, 1 small bases are available.
+
+First query:- a small base is needed. Since number of small bases > 0, return true.
+
+Counter-> 2 Big, 1 Medium, 0 small.
+
+Second query:- a small base is needed. Since number of small bases = 0, return false.
+
+Counter-> 2 Big, 1 Medium, 0 small.
+
+Third query:- a medium base is needed. Since number of medium bases > 0, return true.
+
+Counter-> 2 Big, 0 Medium, 0 small.
+
+Fourth query:- a medium base is needed. Since number of medium bases = 0, return false.
+
+Counter-> 2 Big, 0 Medium, 0 small.
+
+Fifth query:- a small base is needed. Since number of small bases = 0, return false.
+
+Counter-> 2 Big, 0 Medium, 0 small.
+
+import java.io.*;
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();  // number of queries
+        int big = sc.nextInt();  
+        int medium = sc.nextInt();  
+        int small = sc.nextInt();  
+
+        PizzaBase answer = new PizzaBase(big, medium, small);
+
+        for (int i = 0; i < n; i++) {
+            int q = sc.nextInt(); 
+            System.out.println(answer.checkBase(q));
+        }
+    }
+}
+
+class PizzaBase {
+    int big;     // count of big bases
+    int medium;  // count of medium bases
+    int small;   // count of small bases
+
+    public PizzaBase(int big, int medium, int small) {
+        this.big = big;
+        this.medium = medium;
+        this.small = small;
+    }
+    
+    public boolean checkBase(int pizzaSize) {
+        if (pizzaSize == 1) {         // big
+            if (big > 0) {
+                big--;
+                return true;
+            } else {
+                return false;
+            }
+        } 
+        else if (pizzaSize == 2) {    // medium
+            if (medium > 0) {
+                medium--;
+                return true;
+            } else {
+                return false;
+            }
+        } 
+        else if (pizzaSize == 3) {    // small
+            if (small > 0) {
+                small--;
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false; // for invalid size
+    }
+}

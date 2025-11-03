@@ -1,0 +1,52 @@
+You are given a decimal number n.
+
+You are given a base b.
+
+Your task is convert the number n into its corresponding base b.
+
+Input Format
+The first line of input contains n.
+
+The second line of input contains b.
+
+Output Format
+Return the number into its corresponding base.
+
+Example 1
+Input
+
+57
+2
+Output
+
+111001
+Explanation
+
+The decimal value of 57 in base 2 is 111001.
+
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int n = scn.nextInt();  // decimal number
+        int b = scn.nextInt();  // target base
+        int dn = getValueInBase(n, b);
+        System.out.println(dn);
+    }
+
+    public static int getValueInBase(int n, int b) {
+        int ans = 0;
+        int pow = 1;  // to place digits at correct position (units, tens, etc.)
+
+        while (n > 0) {
+            int rem = n % b;  // remainder = current digit in base b
+            n = n / b;
+            ans += rem * pow;
+            pow *= 10;  // shift left in decimal form
+        }
+
+        return ans;
+    }
+}

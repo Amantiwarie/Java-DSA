@@ -1,0 +1,62 @@
+The Hamming distance between two integers is the number of positions at which the corresponding bits are different.
+
+Given two integers x and y , Print the Hamming distance between them.
+
+Note : You just need to complete the HammingDistance() function.
+
+Input Format
+First line contains two space separated-integers x and y.
+
+Output Format
+Print the Hamming distance between the given numbers.
+
+Example 1
+Input
+
+4 9 
+
+Output
+
+3
+
+Explanation
+
+ 
+4  :  0100 
+9  :  1001  
+
+positions at which the corresponding bits are different : 1 , 2 and 4. 
+Hamming Distance : 3
+
+
+
+
+
+import java.util.*;
+
+public class Main
+{   
+    public static int HammingDistance(int x, int y){
+        // XOR of x and y will give bits that are different
+        int xor = x ^ y;
+        int count = 0;
+        
+        // Count number of set bits (1s) in xor result
+        while (xor > 0) {
+            count += xor & 1; // if last bit is 1, increment count
+            xor >>= 1;         // right shift xor to check next bit
+        }
+        return count;
+    } 
+
+	public static void main (String[] args) {
+	 
+		Scanner sc = new Scanner(System.in); 
+		int x = sc.nextInt(); 
+		int y = sc.nextInt(); 
+
+	    int ans = HammingDistance(x,y); 
+        System.out.println(ans); 
+		
+	}
+}

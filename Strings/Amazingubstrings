@@ -1,0 +1,62 @@
+You are given a string S, and you have to find all the amazing substrings of S. A substring is a continuous subsegment of a string.
+
+Amazing Substring is a substring that starts with either an uppercase or a lowercase vowel.
+
+Input Format
+The first line of the input contains the string S.
+
+Output Format
+Print a single integer X mod 10003, where X is the number of Amazing Substrings in the given string.
+
+Example 1
+Input
+
+ABEC
+Output
+
+6
+Explanation
+
+The amazing substrings are:
+
+A
+AB
+ABE
+ABEC
+E
+EC
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class Main {
+
+    public static int solve(String A) {
+        int n = A.length();
+        int count = 0;
+        int mod = 10003;
+
+        for (int i = 0; i < n; i++) {
+            char ch = A.charAt(i);
+            if (isVowel(ch)) {
+                // Every substring starting from i is amazing
+                count = (count + (n - i)) % mod;
+            }
+        }
+
+        return count % mod;
+    }
+
+    // Helper function to check vowel
+    public static boolean isVowel(char c) {
+        c = Character.toUpperCase(c);
+        return (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U');
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String S = sc.nextLine();
+        System.out.println(solve(S));
+    }
+}

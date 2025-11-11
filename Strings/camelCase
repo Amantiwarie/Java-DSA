@@ -1,0 +1,18 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
+        int count = 1; // At least one word is present (the first lowercase word)
+        
+        for (int i = 0; i < s.length(); i++) {
+            if (Character.isUpperCase(s.charAt(i))) {
+                count++; // Every uppercase letter indicates a new word
+            }
+        }
+        
+        System.out.println(count);
+    }
+}

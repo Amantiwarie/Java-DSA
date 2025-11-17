@@ -1,0 +1,35 @@
+class Solution {
+    public boolean IsIdentical(ArrayList<Integer> arr1, ArrayList<Integer> arr2, int n) {
+        return isSameBST(arr1, arr2);
+    }
+
+    private boolean isSameBST(ArrayList<Integer> a, ArrayList<Integer> b) {
+        if (a.size() != b.size()) return false;  // sizes must match
+        if (a.size() == 0) return true;          // both empty are identical
+
+        // root must match
+        if (!a.get(0).equals(b.get(0))) return false;
+
+        ArrayList<Integer> leftA = new ArrayList<>();
+        ArrayList<Integer> rightA = new ArrayList<>();
+        ArrayList<Integer> leftB = new ArrayList<>();
+        ArrayList<Integer> rightB = new ArrayList<>();
+
+        int root = a.get(0);
+
+        // Split for array a
+        for (int i = 1; i < a.size(); i++) {
+            if (a.get(i) < root) leftA.add(a.get(i));
+            else rightA.add(a.get(i));
+        }
+
+        // Split for array b
+        for (int i = 1; i < b.size(); i++) {
+            if (b.get(i) < root) leftB.add(b.get(i));
+            else rightB.add(b.get(i));
+        }
+
+        // Recursively check left and right subtrees
+        return isSameBST(leftA, leftB) && isSameBST(rightA, rightB);
+    }
+}

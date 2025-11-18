@@ -1,0 +1,66 @@
+Given a positive integer which fits in a 32 bit signed integer, find if it can be expressed as A^P where P > 1 and A > 0. A and P both should be integers.
+
+Input Format
+First line contains integer A
+
+Output Format
+Print 1 if A can be expressed as A^P else Print 0
+
+Example 1
+Input
+
+4
+Output
+
+1
+Explanation
+
+as 2^2 = 4.
+
+Example 2
+Input
+
+64
+Output
+
+1
+Explanation
+
+as 4^3 = 64
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        long n = sc.nextLong();
+
+        if (n == 1) {
+            System.out.println(1);  // 1 = 1^p for any p
+            return;
+        }
+
+        for (int p = 2; p <= 31; p++) {  // max p because 2^31 > 1e9
+            long a = (long) Math.round(Math.pow(n, 1.0 / p));
+
+            if (a > 1 && pow(a, p) == n) {
+                System.out.println(1);
+                return;
+            }
+        }
+
+        System.out.println(0);
+    }
+
+    // safe integer power
+    static long pow(long a, int p) {
+        long result = 1;
+        while (p > 0) {
+            if ((p & 1) == 1) result *= a;
+            a *= a;
+            p >>= 1;
+        }
+        return result;
+    }
+}

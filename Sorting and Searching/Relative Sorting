@@ -1,0 +1,55 @@
+Ramesh is given two arrays, arr1 and arr2. He wants to sort arr1 in such a way that the relative order of arr2 is maintained in arr1. For elements that are not present in arr2, he wants to add the these elements at the end of the array in sorted fashion.
+
+Can you help Ramesh achieve this task?
+
+Input Format
+First line contains two integers n and m denoting size of arrays arr1 and arr2 respectively.
+
+Second line contains n space separated integers denoting the array arr1.
+
+Third line contains m space separated integers denoting the array arr2.
+
+Output Format
+Print the relatively sorted arr1
+
+Example 1
+Input
+
+11 4
+2 1 2 5 7 1 9 3 6 8 8
+2 1 8 3
+Output
+
+2 2 1 1 8 8 3 5 6 7 9
+Explanation
+
+arr1 is sorted according to arr2 elements, hence 2 comes before 1, 1 before 8 and 8 before 3. Elements not in arr2 are sorted and appended at the end of arr1.
+
+  static void relativeSorting(int arr1[], int n, int arr2[], int m) {
+
+    // Step 1: frequency map
+    TreeMap<Integer, Integer> freq = new TreeMap<>();
+
+    for (int x : arr1) {
+        freq.put(x, freq.getOrDefault(x, 0) + 1);
+    }
+
+    // Step 2: print elements according to arr2
+    for (int x : arr2) {
+        if (freq.containsKey(x)) {
+            int count = freq.get(x);
+            while (count-- > 0) {
+                System.out.print(x + " ");
+            }
+            freq.remove(x); // remove printed elements
+        }
+    }
+
+    // Step 3: print remaining sorted elements
+    for (int key : freq.keySet()) {
+        int count = freq.get(key);
+        while (count-- > 0) {
+            System.out.print(key + " ");
+        }
+    }
+}

@@ -1,0 +1,59 @@
+
+A robot is located at the top-left corner of a m x n grid.
+
+The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid.
+
+Now consider if some obstacles are added to the grids. How many unique paths would there be?
+
+An obstacle and space are marked as 1 and 0 respectively in the grid.
+
+The test cases are generated so that the answer will be less than or equal to 2 * 10^9.
+
+Input Format
+The first line of input contains two integers m and n seprated by space.
+The next m line of input contains n space seprated integers denoting the obstacleGrid.
+
+Output Format
+The only line of output contains an integer denoting the number of possible unique paths that the robot can take to reach the bottom-right corner.
+
+Example 1
+Input
+
+3 3
+0 0 0
+0 1 0
+0 0 0
+Output
+
+2
+Explanation
+
+There is one obstacle in the middle of the 3x3 grid above.
+There are two ways to reach the bottom-right corner:
+1. Right -> Right -> Down -> Down
+2. Down -> Down -> Right -> Right
+
+import java.util.*;
+
+class Solution{
+    public static int UniquePaths2(int m,int n,int[][] obstacleGrid){
+        //write code here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        Scanner sc = new Scanner(System.in);
+        int m = sc.nextInt();
+        int n = sc.nextInt();
+        int[][] obstacleGrid = new int[m][n];
+        for(int i=0;i<m;++i){
+            for(int j=0;j<n;++j){
+                obstacleGrid[i][j]=sc.nextInt();
+            }
+        }
+        Solution obj = new Solution();
+        int ans = obj.UniquePaths2(m,n,obstacleGrid);
+        System.out.println(ans);
+    }
+}

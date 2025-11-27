@@ -1,0 +1,41 @@
+You are given an array of integers nums and an integer k.
+
+Return the maximum sum of a subarray of nums, such that the size of the subarray is divisible by k.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2], k = 1
+
+Output: 3
+
+Explanation:
+
+The subarray [1, 2] with sum 3 has length equal to 2 which is divisible by 1.
+
+class Solution {
+    public long maxSubarraySum(int[] nums, int k) {
+        long[] minPrefix = new long[k];
+        final long INF = Long.MAX_VALUE;
+
+        for (int i = 0; i < k; i++) minPrefix[i] = INF;
+        minPrefix[0] = 0;
+
+        long prefix = 0;
+        long answer = Long.MIN_VALUE;
+
+        for (int i = 0; i < nums.length; i++) {
+            prefix += nums[i];
+            int mod = (i + 1) % k;
+
+            if (minPrefix[mod] != INF) {
+                answer = Math.max(answer, prefix - minPrefix[mod]);
+            }
+
+            minPrefix[mod] = Math.min(minPrefix[mod], prefix);
+        }
+
+        return answer;
+    }
+}

@@ -1,0 +1,59 @@
+You are given two integers m and n, representing the dimensions of a matrix. Your task is to start from the upper left position, i.e. (0, 0) and end up at the bottom right cell, i.e. (m - 1, n - 1) with the condition that you can only travel either downwards or rightwards, i.e. from (r, c) you can go to either (r + 1, c) or (r, c + 1).
+
+Find the total number of unique paths from the source to the destination.
+
+Input Format
+First line consists of t, the number of test cases
+
+The next t lines contain 2 integers each m, n representing the dimensions of the matrices
+
+Output Format
+Output contains t lines, where each line contains the number of unique paths from the source to the destination of that particular dimension matrix
+
+Example 1
+Input
+
+2
+2 2
+1 1
+Output
+
+2
+1
+Explanation
+
+In test case 1, we are given a 2 x 2 matrix, to move from matrix[0][0] to matrix[1][1] we have the following possible paths.
+Path 1 = (0, 0) -> (0, 1) -> (1, 1)
+
+Path 2 = (0, 0) -> (1, 0) -> (1, 1)
+
+Hence a total of 2 paths are available, so the output is 2.
+
+In test case 2, we are given a 1 x 1 matrix, hence we just have a single cell which is both the starting and ending point. Hence the output is 1.
+
+public static int uniquePaths(int m, int n) {
+    // Edge case: no rows or no columns
+    if (m <= 0 || n <= 0) return 0;
+
+    long[][] dp = new long[m][n];
+
+    // First row: only one way (move right)
+    for (int j = 0; j < n; j++) {
+        dp[0][j] = 1;
+    }
+
+    // First column: only one way (move down)
+    for (int i = 0; i < m; i++) {
+        dp[i][0] = 1;
+    }
+
+    // Fill the rest of the grid
+    for (int i = 1; i < m; i++) {
+        for (int j = 1; j < n; j++) {
+            dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+        }
+    }
+
+    // The bottom-right cell has the answer
+    return (int) dp[m - 1][n - 1];
+}

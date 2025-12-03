@@ -1,0 +1,74 @@
+Acciojob is hosting a ballroom dance in celebration of its 10th anniversary! n boys and m girls are already busy rehearsing waltz, minuet, polonaise and quadrille moves.
+
+We know that several boy & girl pairs are going to be invited to the ball. However, the partners'''' dancing skill in each pair must differ by at most one.
+
+For each boy, we know his dancing skills. Similarly, for each girl we know her dancing skills. Write a code that can determine the largest possible number of pairs that can be formed from n boys and m girls.
+
+Input Format
+The first line contains an integer n — the number of boys.
+
+The second line contains sequence a1, a2, ..., an, where ai is the i-th boy''''s dancing skill.
+
+Similarly, the third line contains an integer m — the number of girls.
+
+The fourth line contains sequence b1, b2, ..., bm, where bj is the j-th girl''''s dancing skill.
+
+Output Format
+Return a single number — the required maximum possible number of pairs.
+
+Example 1
+Input
+
+4
+1 4 6 2
+5
+5 1 5 7 9
+Output
+
+3
+Explanation
+
+(4,5), (6,7) and (2,1)/(1,1) are the pairs which have skills that differ by atmost 1 so the maximum pos
+
+import java.util.*;
+
+class Solution {
+    public int maxPairs(int[] boys, int[] girls) {
+        Arrays.sort(boys);
+        Arrays.sort(girls);
+        
+        int i = 0, j = 0;
+        int count = 0;
+
+        while (i < boys.length && j < girls.length) {
+            if (Math.abs(boys[i] - girls[j]) <= 1) {
+                count++;
+                i++;
+                j++;
+            } else if (boys[i] < girls[j]) {
+                i++;
+            } else {
+                j++;
+            }
+        }
+
+        return count;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int a[] = new int[n];
+        for (int i = 0; i < n; i++)
+            a[i] = sc.nextInt();
+        int m = sc.nextInt();
+        int b[] = new int[m];
+        for (int i = 0; i < m; i++)
+            b[i] = sc.nextInt();
+        Solution obj = new Solution();
+        System.out.println(obj.maxPairs(a, b));
+        sc.close();
+    }
+}
